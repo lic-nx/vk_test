@@ -1,5 +1,3 @@
-# задание надобовление файла в игру
-
 import os
 import sys
 import requests
@@ -45,7 +43,7 @@ def import_reg_file(reg_file_path):
         print(f"Error importing registry file: {e}")
 
 def launch_game(game_folder):
-    steam_exe_path = os.path.join(game_folder, "..", "..", STEAM_EXE)
+    steam_exe_path = os.path.join(game_folder, STEAM_EXE)
     game_exe_path = os.path.join(game_folder, GAME_EXE)
 
     if os.path.exists(steam_exe_path):
