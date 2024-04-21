@@ -13,12 +13,14 @@ REG_FILE_NAME = "settings.reg"
 STEAM_EXE = "steam.exe"
 GAME_EXE = f"{GAME_NAME}.exe"
 
+
 def find_game_folder():
-    dir_path = 'C:\\Users\\' #os.path.dirname(os.path.realpath(__file__))
+
+    dir_path = 'C:\\' #os.path.dirname(os.path.realpath(__file__))
     print(dir_path)
     for root, dirs, files in os.walk(dir_path):
         for file in dirs:
-            if file == "steam": # "Goose Goose Duck":
+            if file == "Steam": # "Goose Goose Duck":
                 return(os.path.join(root, file))
     return None          
 
@@ -30,10 +32,13 @@ def download_reg_file(url, destination_folder):
     # save the file in the specified folder
     with open(file_path, 'wb') as f:
         f.write(r.content)
+        print("add new")
+    return file_path
 
 def import_reg_file(reg_file_path):
     try:
-        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\\Valve\\Steam", 0, winreg.KEY_ALL_ACCESS)
+        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\\Valve\\Steam\\steamglobal", 0, winreg.KEY_ALL_ACCESS)
+        
         with open(reg_file_path, "r") as file:
             content = file.read()
             winreg.SetValueEx(key, "AppVolume_" + GAME_NAME, 0, winreg.REG_SZ, content)
@@ -60,6 +65,7 @@ if __name__ == "__main__":
         reg_file_path = download_reg_file(REG_FILE_URL, game_folder)
         if reg_file_path:
             import_reg_file(reg_file_path)
+            print(reg_file_path)
         launch_game(game_folder)
     else:
         print(f"Could not find {GAME_NAME} installation folder.")
